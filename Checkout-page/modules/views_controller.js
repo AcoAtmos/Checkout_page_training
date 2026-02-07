@@ -1,4 +1,8 @@
 const path = require("path");
+// register page
+exports.register = async (req , res ) =>{
+    res.render(path.join(__dirname ,"./register/register_page.ejs"));
+};
 
 // login page
 exports.login = async (req , res ) =>{

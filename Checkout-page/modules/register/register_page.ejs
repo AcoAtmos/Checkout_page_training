@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manjuu — Create Account</title>
+
+  <link rel="stylesheet" href="/assets/css/register.css">
+  <script src="/assets/js/register.js" defer></script>
+</head>
+<body>
+ 
+<div class="container">
+
+  <div class="header">
+    <div class="logo">Manjuu</div>
+    <div class="tagline">Creative Digital Goods</div>
+  </div>
+
+  <div class="form-container">
+
+    <h1>Create your account</h1>
+    <div class="subtitle">Join thousands of creators building better digital products</div>
+
+    <form id="registerForm" novalidate>
+
+      <div class="form-group">
+        <label for="username">Full Name</label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Aco Designer" 
+          required 
+          minlength="2"
+        >
+        <div class="error-message" id="usernameError">Please enter your full name</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          placeholder="aco@example.com" 
+          required 
+          autocomplete="email"
+        >
+        <div class="error-message" id="emailError">Please enter a valid email</div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input 
+          type="text" 
+          id="phone" 
+          placeholder="08123456789" 
+          required 
+          autocomplete="phone"
+        >
+        <div class="error-message" id="phoneError">Please enter a valid phone</div>
+      </div>
+
+      <div class="form-group password-toggle">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          placeholder="••••••••" 
+          required 
+          minlength="8"
+        >
+        <button type="button" class="toggle-btn" id="togglePassword">👁️</button>
+        <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+      </div>
+
+      <div class="form-group password-toggle">
+        <label for="confirmPassword">Confirm Password</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          placeholder="••••••••" 
+          required 
+          minlength="8"
+        >
+        <button type="button" class="toggle-btn" id="toggleConfirmPassword">👁️</button>
+        <div class="error-message" id="confirmPasswordError">Password must be at least 8 characters</div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">
+          I agree to the <a href="#" style="color:#6366f1; text-decoration:none;">Terms of Service</a> and 
+          <a href="#" style="color:#6366f1; text-decoration:none;">Privacy Policy</a>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-register" id="registerBtn">
+        Create Account
+      </button>
+
+    </form>
+
+    <div class="divider">
+      <span>or sign up with</span>
+    </div>
+
+    <div class="social-buttons">
+      <button type="button" class="social-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.44-3.39-7.44-7.57s3.345-7.57 7.44-7.57c2.33 0 3.89.955 4.785 1.78l3.254-3.13C18.12 1.365 15.48 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.87 11.52-11.74 0-.79-.085-1.39-.185-1.99H12.24z"/></svg>
+        Google
+      </button>
+      <button type="button" class="social-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#24292e" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </button>
+    </div>
+
+    <div class="login-link">
+      Already have an account? <a href="./login.html">Sign in</a>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

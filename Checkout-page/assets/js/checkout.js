@@ -41,7 +41,6 @@ async function hit_api_getproduct(slug) {
     }
 }
 
-
 async function hit_api_check_whatsapp() {
     const phoneError = document.getElementById("phone-error");
     try {
@@ -69,6 +68,7 @@ async function hit_api_check_whatsapp() {
         return false;
     }
 }
+
 // // async function hit_api_submit() {
     // //     try {
         // //         const res = await fetch(`http://localhost:4100/api/submit/`);

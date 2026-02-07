@@ -1,5 +1,5 @@
 
-// Very basic client-side validation + visual feedback
+
 document.getElementById('loginForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
@@ -17,21 +17,36 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     return;
   }
 
+  // hit api login
   // Simulate loading state
   btn.textContent = 'Signing in...';
   btn.disabled = true;
+  hit_api_login(email, password); 
 
-  // Fake delay → in real app → fetch('/api/login', ...)
-  setTimeout(() => {
-    // Success simulation
-    alert('Login successful! (demo)');
-    btn.textContent = 'Sign In';
-    btn.disabled = false;
-
-    // Or redirect:
-    // window.location.href = '/dashboard.html';
-  }, 1400);
+  // redirect to home page
+  window.location.href = "/page/home";
 });
 
-// Optional: show/hide password (you can add icon later)
+async function hit_api_login(email, password){
+  try{
+    const res = await fetch(`http://localhost:4100/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+  }catch(error){
+    console.log(error);
+    // Simulate loading state
+    btn.textContent = 'Signing in...';
+    btn.disabled = true;
+  }
+}
+
 
