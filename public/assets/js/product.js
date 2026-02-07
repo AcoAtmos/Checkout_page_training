@@ -18,6 +18,7 @@ async function hit_api_getproduct() {
     try {
         const res = await fetch("http://localhost:4100/api/get_product/");
         const json = await res.json();
+        console.log(json);
         return json.data;
     } catch (err) {
         console.error(err);
