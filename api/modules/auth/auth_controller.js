@@ -15,7 +15,7 @@ exports.register = async(req, res) => {
         });
     }catch(err){
         return res.status(500).json({
-            status: "error",
+            status: "error server error cik",
             message: err.message
         });
     }
