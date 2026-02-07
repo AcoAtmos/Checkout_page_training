@@ -19,29 +19,22 @@ exports.login = async (body) =>{
     const {email, password} = body;
     const query = `SELECT * FROM users WHERE email = $1`;
 
-    // search user by email
     try{
+        // search user by email
         const {rows} = await db.query(query, [email]); 
         const user = rows[0];
+        console.log(user);
         if (!user){
             throw new Error("User not found");
         }
-    }catch(err){
-        throw new Error(err);
-    }
 
-    // compare password
-    try{
+        // compare password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid){
             throw new Error("Invalid password");
         }
-    }catch(err){
-        throw new Error(err);
-    }
 
-    // generate token
-    try{
+        // generate token
         const token = jwt.sign({
             id: user.id,
             email : user.email
