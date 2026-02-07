@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 /// =================ROUTES API=======================
 
 // Product and checkout routes
-router.get("/get_product", product.get_product); // get product
+router.get("/get_product/:slug", product.get_product); // get product
 
 // WhatsApp routes
 router.get("/check_whatsapp/:phone", whatsapp.check_whatsapp); // check whatsapp

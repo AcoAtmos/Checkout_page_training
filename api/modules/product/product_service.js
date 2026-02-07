@@ -1,8 +1,8 @@
 const helper = require("../../common/helper");
 
-exports.getProduct = async () => {
-    const query = "SELECT * FROM products";
-    const results = await helper.db.query(query);
+exports.getProduct = async (slug) => {
+    const query = "SELECT * FROM products WHERE slug = $1";
+    const results = await helper.db.query(query, [slug]);
     console.log(results.rows);
-    return results.rows;
+    return results.rows[0];
 };

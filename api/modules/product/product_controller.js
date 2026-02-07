@@ -1,8 +1,9 @@
-const service = require("./product_service");
+    const service = require("./product_service");
 
 exports.get_product = async (req, res) => {
     try {
-        const products = await service.getProduct();
+        const slug = req.params.slug;
+        const products = await service.getProduct(slug);
 
         return res.status(200).json({
             success: true,
