@@ -52,3 +52,41 @@ exports.check_whatsapp = async (phone) => {
     return dt;
 };
 
+exports.send_whatsapp = async(results) => {
+    if(results.status == "fail"){return results;}
+
+    // hit api and check number
+    try{
+        const baseUrl = process.env.API_URL;
+        const apiKey = process.env.API_KEY;
+
+        if (!baseUrl || !apiKey) {
+            throw new Error("API_URL or API_KEY is not defined");
+        }
+
+        const payload = {
+            phone_no: results.payload.phone_no,
+            key: apiKey,
+            message: results.payload.message,
+        };
+
+        const response = await axios.post(`${baseUrl}/send_message`, payload, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        console.log('response : ', response.data)
+
+        // return response
+        results.data = response.data;
+        results.message = "Success";
+        results.status = "success";
+        results.code = 200;
+        return results;
+
+    }catch(err){
+        results.message = "Invalid response from WhatsApp API";
+        results.status = "fail";
+        results.code = err.response?.data?.code || 500;
+        throw new Error(err);
+    }
+};
+

@@ -13,7 +13,7 @@ exports.checkout = async (req, res) => {
         result = await validatePayload(result);
         result = await getPrice(result); 
         result = await countTotal(result); 
-        console.log(result);
+        result = await createAccount(result);
         return res.status(200).json({
             code: 200,
             message: "Success",

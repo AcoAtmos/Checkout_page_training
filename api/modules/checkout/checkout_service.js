@@ -1,5 +1,6 @@
 
-const {db} = require("../../common/helper")
+const {db} = require("../../common/helper");
+const {register} = require("../auth/auth_service");
 // ============= CHECKOUT PROCESS =============
 exports.capturePayload = async (data) =>{
     let username = data?.username;
@@ -10,17 +11,19 @@ exports.capturePayload = async (data) =>{
     let product = data?.product;
     let amount = data?.amount;
     let discount = data?.discount;
+    let terms = data?.terms;
 
-    let dt = {
+    let result = {
         payload : {
             username : username,
             email : email,
-            password : password,
+            password : password || "",
             phone : phone,
             payment_method : payment_method,
             product : product,
             amount : amount || 1,
-            discount : discount || 0
+            discount : discount || 0,
+            terms : terms || true
         },
         code : 200,
         status : "success",
@@ -28,35 +31,50 @@ exports.capturePayload = async (data) =>{
         data : {}
 
     }
-    return dt;
+    return result;
 }
 exports.validatePayload = async (result) =>{
     if (result.status !== "success"){
-        throw new Error("Invalid payload");
+        result.message("Invalid payload");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     if (result.payload.username === "" || result.payload.username === null || result.payload.username === undefined){
-        throw new Error("Username is required");
+        result.message("Username is required");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     if (result.payload.email === "" || result.payload.email === null || result.payload.email === undefined){
-        throw new Error("Email is required");
-    }
-    if (result.payload.password === "" || result.payload.password === null || result.payload.password === undefined){
-        throw new Error("Password is required");
+        result.message("Email is required");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     if (result.payload.phone === "" || result.payload.phone === null || result.payload.phone === undefined){
-        throw new Error("Phone is required");
+        result.message("Phone is required");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     if (result.payload.payment_method === "" || result.payload.payment_method === null || result.payload.payment_method === undefined){
-        throw new Error("Payment method is required");
+        result.message("Payment method is required");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     if (result.payload.product === "" || result.payload.product === null || result.payload.product === undefined){
-        throw new Error("Product is required");
+        result.message("Product is required");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
-    if (result.payload.amount === "" || result.payload.amount === null || result.payload.amount === undefined){
-        throw new Error("Amount is required");
-    }
-    if (result.payload.discount === "" || result.payload.discount === null || result.payload.discount === undefined){
-        throw new Error("Discount is required");
+    if (result.payload.terms == false){
+        result.message("Terms and conditions must be accepted");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err);
     }
     return result;
 }
@@ -84,25 +102,40 @@ exports.countTotal = async (result) => {
 // ============= CHECKOUT AUTH ==============
 
 exports.checkout_add_user = async (result) =>{
-    const user = result.user;
+    try{
+        const idUser = await db.query("SELECT id FROM users WHERE email = ?", [result.payload.email]);
+        // kalau user tidak di temukan maka akan di buatkan user baru
+        if (idUser.length == 0 ){
+            // cek password kalau user tidak di temukan
+            if (result.payload.password === "" || result.payload.password === null || result.payload.password === undefined){
+                throw new Error("Password is required");
+            }
+            const query = `INSERT INTO users (email, phone, name, password, terms) VALUES ($1, $2, $3, $4, $5)`;
 
-    let user_id;
-
-    if(user){
-        // user already login
-        user_id = user.id;
-    }else{
-        // user not login (create new user)
-        const query = `INSERT INTO users (email, phone, name) VALUES ($1, $2, $3)`;
-        try{
-            const [rows] = await db.query(query, [result.email, result.phone, result.name]);
-            user_id = rows[0].id;
-        }catch(err){
-            throw new Error(err);
+                const [rows] = await db.query(query, [result.payload.email, result.payload.phone, result.payload.username, result.payload.password, result.payload.terms]);
+                result.payload.idUser = rows[0].id;
+        }else{
+            // kalau user di temukan 
+            result.payload.idUser = idUser[0].id;
         }
+        result.code = 200;
+        result.status = "success";
+        result.message = "Success";
+        return result;
+    }catch(err){
+        result.message("Create account failed");
+        result.code = 400;
+        result.status = "error";
+        throw new Error (err); 
     }
-
-    return user_id;
 };
 
 
+exports.createResponse =async (result) =>{
+    let res = {
+        code : 200,
+        status : "success",
+        message : "Success",
+        data : {} 
+    }
+}
