@@ -158,16 +158,16 @@ const categoryButtons = document.querySelectorAll('.category-btn');
 categoryButtons.forEach(button => {
     button.addEventListener("click", () => {
         // Toggle active class
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        categoryButtons.forEach(btn => btn.classList.remove('active')); // remove active class from all buttons
+        button.classList.add('active'); // add active class to clicked button
 
         const category = button.getAttribute("category");
         const products = document.querySelectorAll('.product-card');
 
-        products.forEach(product => {
-            if(category == "all" || product.getAttribute("category") == category){
+        products.forEach(product => { // loop through all products
+            if(category == "all" || product.getAttribute("category") == category){ // if category is all or product category matches
                 product.style.display = "block";
-            }else{
+            }else{ // hide products that don't match
                 product.style.display = "none";
             }
         });

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ginyuu — Creative Digital Goods</title>
+<!-- 
+  <link rel="stylesheet" href="/assets/css/home.css">
+  <script type="module" src="/assets/js/home.js" defer></script> -->
+
+  <style>
+    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8f9fa;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* ── Navigation ── */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.logo {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #6366f1;
+    letter-spacing: -0.8px;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-links a{
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.97rem;
+    transition: color 0.2s;
+}
+.nav-links a.btn-signin {
+    color: white !important; 
+    display: block;
+}
+.nav-links a:hover {
+    color: #6366f1;
+}
+
+.btn-signin {
+    padding: 10px 20px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-signin:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+#profileToggle {
+    display: inline-block;
+    background-color: #4f46e5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* dropdown */
+.profile-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* dropdown box */
+#profileDropdown {
+  position: absolute;
+  top: 100%; /* jarak ke bawah dari avatar */
+  right: 0;
+  width: 180px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  display: none ;
+  z-index: 999;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.profile-dropdown a:hover {
+  background: #f4f4f4;
+  transform: translateY(-1px);
+}
+
+.profile-dropdown hr {
+  margin: 6px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+.profile-dropdown .logout {
+  color: #e53935;
+}
+.profile-dropdown .logout:hover {
+  color: #e53935;
+  transform: translateY(-1px);
+}
+
+
+/* ── Hero ── */
+.hero {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    padding: 120px 5% 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h1 {
+    font-size: clamp(2.8rem, 8vw, 4.8rem);
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -1.2px;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: clamp(1.2rem, 4vw, 1.45rem);
+    max-width: 680px;
+    margin: 0 auto 40px;
+    opacity: 0.95;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    padding: 16px 36px;
+    background: white;
+    color: #4f46e5;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+    padding: 16px 36px;
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+}
+
+.btn-outline:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* ── Features / Why Us ── */
+.features {
+    padding: 100px 5%;
+    background: white;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #111827;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #6b7280;
+    max-width: 640px;
+    margin: 0 auto 60px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: 40px 28px;
+    background: #f9fafb;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(99,102,241,0.12);
+    border-color: #c7d2fe;
+}
+
+.feature-icon {
+    font-size: 3.2rem;
+    margin-bottom: 20px;
+    color: #6366f1;
+}
+
+.feature-card h3 {
+    font-size: 1.45rem;
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+/* ── Reviews ── */
+.reviews {
+    padding: 100px 5%;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+    max-width: 1200px;
+    margin: 60px auto 0;
+}
+
+.review-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+    position: relative;
+}
+
+.quote {
+    font-size: 1.8rem;
+    color: #6366f1;
+    opacity: 0.4;
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    line-height: 1;
+}
+
+.review-text {
+    font-size: 1.05rem;
+    color: #4b5563;
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+}
+
+.author-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e0e7ff;
+}
+
+.author-info strong {
+    display: block;
+    color: #111827;
+    font-weight: 600;
+}
+
+.author-info span {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.stars {
+    color: #fbbf24;
+    font-size: 1.3rem;
+    margin-top: 8px;
+}
+
+/* ── Footer CTA ── */
+.cta-footer {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 100px 5%;
+    text-align: center;
+}
+
+.cta-footer h2 {
+    font-size: clamp(2.4rem, 7vw, 3.8rem);
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .hero { padding: 90px 5% 80px; }
+    .nav-links { gap: 20px; font-size: 0.95rem; }
+    .hero-buttons { flex-direction: column; }
+    .feature-grid, .review-grid { gap: 24px; }
+}
+
+@media (max-width: 480px) {
+    nav { flex-direction: column; gap: 16px; padding: 16px 6%; }
+    .nav-links { flex-wrap: wrap; justify-content: center; }
+}
+
+  </style>
+
+</head>
+<body>
+
+  <!-- 1. Navigation -->
+  <%- include('../../common/view/navbar.ejs') %>
+
+  <!-- 2. Hero Section -->
+  <section class="hero">
+    <h1>Beautiful Digital Goods<br>for Creative People</h1>
+    <p>Discover premium UI kits, icons, templates, and tools handcrafted with love to help you ship faster and look better.</p>
+    <div class="hero-buttons">
+      <a href="/page/product" class="btn-primary">Browse Products</a>
+      <a href="/page/showcase" class="btn-outline">See Showcase</a>
+    </div>
+  </section>
+
+  <!-- 4. Features / Why Choose Us -->
+  <section class="features" id="features">
+    <h2 class="section-title">Why Creators Love Ginyuu</h2>
+    <p class="section-subtitle">Everything you need to create standout digital products — faster, smarter, prettier.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M13 10a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H14a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12c0 .556-.227 1.06-.593 1.422A.999.999 0 0 1 20.5 20H4a2.002 2.002 0 0 1-2-2V6Zm6.892 12 3.833-5.356-3.99-4.322a1 1 0 0 0-1.549.097L4 12.879V6h16v9.95l-3.257-3.619a1 1 0 0 0-1.557.088L11.2 18H8.892Z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3>Premium Quality Assets</h3>
+        <p>Pixel-perfect, well-organized files in Figma, Sketch, Adobe XD & more — ready for commercial use.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M20.337 3.664c.213.212.354.486.404.782.294 1.711.657 5.195-.906 6.76-1.77 1.768-8.485 5.517-10.611 6.683a.987.987 0 0 1-1.176-.173l-.882-.88-.877-.884a.988.988 0 0 1-.173-1.177c1.165-2.126 4.913-8.841 6.682-10.611 1.562-1.563 5.046-1.198 6.757-.904.296.05.57.191.782.404ZM5.407 7.576l4-.341-2.69 4.48-2.857-.334a.996.996 0 0 1-.565-1.694l2.112-2.111Zm11.357 7.02-.34 4-2.111 2.113a.996.996 0 0 1-1.69-.565l-.422-2.807 4.563-2.74Zm.84-6.21a1.99 1.99 0 1 1-3.98 0 1.99 1.99 0 0 1 3.98 0Z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3>Instant Download</h3>
+        <p>Get your products immediately after purchase. No waiting, no limits.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
+          </svg>
+        </div>
+        <h3>Lifetime Access</h3>
+        <p>One-time payment = forever updates for the products you love.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3>Community Love</h3>
+        <p>Thousands of happy creators — join the movement of people building better.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Reviews / Testimonials -->
+  <section class="reviews" id="reviews">
+    <h2 class="section-title">Loved by Creative People</h2>
+    <p class="section-subtitle">Don't just take our word for it — here's what our community is saying.</p>
+
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="quote">“</div>
+        <p class="review-text">Best purchase I've made this year. The components are clean, modern, and saved me weeks of design time.</p>
+        <div class="review-author">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" alt="avatar" class="author-avatar">
+          <div class="author-info">
+            <strong>Sarah Chen</strong>
+            <span>Product Designer @ Startup</span>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="quote">“</div>
+        <p class="review-text">The icons are next-level — consistent style, perfect sizing, and huge variety. Worth every penny.</p>
+        <div class="review-author">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" alt="avatar" class="author-avatar">
+          <div class="author-info">
+            <strong>Michael Reyes</strong>
+            <span>Freelance Illustrator</span>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="quote">“</div>
+        <p class="review-text">Customer support is insanely fast and helpful. Got a custom request sorted in under 2 hours!</p>
+        <div class="review-author">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" alt="avatar" class="author-avatar">
+          <div class="author-info">
+            <strong>Aisha Patel</strong>
+            <span>UI/UX Designer</span>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Extra CTA Section -->
+  <section class="cta-footer">
+    <h2>Ready to Level Up Your Projects?</h2>
+    <p style="font-size:1.3rem; max-width:640px; margin:0 auto 40px; opacity:0.95;">
+      Join thousands of creators who trust Ginyuu for beautiful, ready-to-use digital assets.
+    </p>
+    <a href="./checkout.html" class="btn-primary" style="background:white; color:#4f46e5; font-size:1.2rem; padding:18px 48px;">
+      Start Exploring Now
+    </a>
+  </section>
+
+</body>
+</html>

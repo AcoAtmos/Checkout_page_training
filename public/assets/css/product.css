@@ -129,10 +129,10 @@ nav {
 header {
     padding: 70px 5% 50px;
     text-align: center;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    background: linear-gradient(135deg, #6366f1 , #6366f1);
 }
-header h1 { font-size: clamp(2.5rem, 7vw, 3.8rem); font-weight: 800; margin-bottom: 12px; }
-header p { font-size: 1.18rem; color: #4b5563; max-width: 640px; margin: 0 auto; }
+header h1 { font-size: clamp(2.5rem, 7vw, 3.8rem); font-weight: 800; margin-bottom: 12px; color:white}
+header p { font-size: 1.18rem; color: white; max-width: 640px; margin: 0 auto; }
 
 .filters {
     max-width: 1400px;

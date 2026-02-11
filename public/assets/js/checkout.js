@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // get products
     const slug = window.location.pathname.split("/")[3];
     const product = await hit_api_getproduct(slug);
-    console.log(product);
     // set product
     if(product){
         cartProduct(product);
@@ -164,10 +163,10 @@ async function validateForm(event) {
     alert("Validation Success! Proceeding to payment...");
     // submit logic here...
 }
-async function submitForm(event){
-    event.preventDefault();
+
+async function submitForm(product){
     const payload = {
-        product: window.location.pathname.split("/")[3],
+        product: product.id,
         username: document.getElementById('username').value,
         email: document.getElementById('email').value,
         password: document.getElementById('password').value,
