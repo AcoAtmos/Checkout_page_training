@@ -2,7 +2,7 @@
 async function check_login(){
     const token = localStorage.getItem("token");
     if(!token){
-        window.location.href = "/page/home";
+        return
     }else{
         const data = await hit_api_verify_token(token);
         console.log(data);
@@ -27,7 +27,6 @@ async function check_login(){
         }
     }
 }
-
 // hit api verify token
 async function hit_api_verify_token(token) {
     try {
@@ -97,6 +96,8 @@ const logout = () => {
     localStorage.removeItem("user");
     window.location.href = "/page/home";
 }
+
+
 export {
     check_login,
     hit_api_verify_token,

@@ -5,26 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manjuu — My Profile</title>
     <link rel="stylesheet" href="/assets/css/profile.css">
-    <script src="/assets/js/profile.js"></script>
+    <script type="module" src="/assets/js/profile.js"></script>
 </head>
 <body>
 
-  <nav>
-    <a href="./index.html" class="logo">Manjuu</a>
-    <div class="nav-links">
-      <a href="./products.html">Products</a>
-      <a href="./showcase.html">Showcase</a>
-      <a href="./profile.html">Profile</a>
-      <a href="#" style="color:#ef4444;">Sign Out</a>
-    </div>
-  </nav>
+  <%- include('../../common/view/navbar.ejs') %>
 
   <header class="profile-header">
     <div class="avatar-container">
-      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" alt="Avatar" class="avatar">
     </div>
-    <h1 class="profile-name">Aco Designer</h1>
-    <p class="profile-bio">UI/UX enthusiast • Figma & Webflow lover • Building beautiful digital products in Yogyakarta</p>
+    <h1 class="profile-name"></h1>
+    <p class="profile-bio">Edit your profile bio</p>
 
     <div class="profile-stats">
       <div class="stat-item">
