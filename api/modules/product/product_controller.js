@@ -28,3 +28,20 @@ exports.get_product = async (req, res) => {
         });
     }
 };
+
+exports.get_product_home = async (req, res) => {
+    try {
+        const results = await service.getProductHome();
+        return res.status(200).json({
+            success: true,
+            message: "success",
+            data: results
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};

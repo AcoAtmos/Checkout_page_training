@@ -14,7 +14,8 @@ router.get("/", (req, res) => {
 });
 
 /// =================ROUTES API=======================
-
+// home page
+router.get("/product/home", product.get_product_home); // get product for home 
 // Product and checkout routes
 router.get("/get_product", product.get_product); // get product for home
 router.get("/get_product/:slug", product.get_product); // get product for checkout
