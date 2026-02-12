@@ -3,8 +3,14 @@
 document.addEventListener('DOMContentLoaded', async function() {
     const data = await hit_api_get_product_home();
     console.log(data.new_arrival);
-    
-    await set_dom_product_home(data);
+    // product
+    await set_dom_product_home(data);  
+
+    //navbar profile
+    const check = await check_login();
+    if(check){
+        await set_dom_profile();
+    }
 })
 
 // hit api get product home
@@ -19,7 +25,7 @@ async function hit_api_get_product_home(){
     }
 }
 
-// set DOM product home
+//===================== DOM product home =====================
 async function set_dom_product_home(data){
     // item
     const new_arrival = data.new_arrival;
@@ -85,4 +91,35 @@ async function set_dom_product_home(data){
     container_new_arrival.innerHTML = new_arrival_html;
     container_top_selling.innerHTML = top_selling_html;
     
+}
+
+//===================== navbar profile =====================
+async function check_login(){
+    const token = localStorage.getItem('token'); // cek token
+    if(token){ // if exist
+        try{
+            const response = await fetch("http://localhost:4100/api/auth/verify_token", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const result = await response.json();
+            return result;
+        }catch(error){
+            console.log(error);
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+
+async function set_dom_profile(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    const profile = document.getElementById('profile');
+    profile.innerHTML = `
+        <img class="profile-img" src="../../assets/img/profile/${user.image_url}" alt="Profile">
+    `;
 }

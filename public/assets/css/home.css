@@ -37,167 +37,8 @@
             font-family: 'Sora', sans-serif;
             font-weight: 700;
         }
-
-        /* Header Styles */
-        header {
-            position: sticky;
-            top: 0;
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
-            z-index: 1000;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .header-container {
-            max-width: 1800px; /*1400px*/
-            margin: 0 auto;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-
-        nav {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--gray-700);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--primary-color);
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            min-width: 200px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 0.8rem 1.2rem;
-            color: var(--gray-700);
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-menu a::after {
-            display: none;
-        }
-
-        .dropdown-menu a:hover {
-            background: var(--gray-100);
-            color: var(--primary-color);
-            padding-left: 1.5rem;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .icon-btn {
-            background: var(--white);
-            color: var(--gray-800);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s ease;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            background: var(--gradient);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            transition: all 0.5s ease;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--secondary-color);
-            color: var(--white);
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
+        /* nav ada di ejs */
+       
         /* Hero Section */
         .hero {
             max-width: 1400px;
@@ -423,6 +264,11 @@
             border-color: var(--primary-color);
         }
 
+        .product-card:hover .product-icon {
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
         .product-image {
             width: 100%;
             height: 280px;
@@ -441,7 +287,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--gradient);
+            /* background: var(--gradient); */
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -460,6 +306,7 @@
             height: 100%;
             object-fit: cover;
         }
+
         .product-badge {
             position: absolute;
             top: 1rem;
