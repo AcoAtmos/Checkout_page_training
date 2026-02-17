@@ -1,6 +1,7 @@
-
+//====================== main.js =======================
+import { isCookieSet, getCookie } from "./main/main.js";
 // ================== GLOBAL STATE ==================
-let discount = 0.2; //example discount
+let discount = 0; //example discount
 let qty = 1;
 const username = document.getElementById('username');
 const password = document.getElementById('password');
@@ -16,7 +17,8 @@ const payment_method = paymentEl ? paymentEl.value : null;
 // ================== LOAD DATA ==================
 document.addEventListener("DOMContentLoaded", async () => {
     // Check user (cek token)
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
+    console.log(token);
     if (!token){
         emptyUserForm();
     }else{
@@ -80,7 +82,7 @@ async function hit_api_check_whatsapp() {
 
 async function hit_api_verify_token() {
     try {
-        const token = localStorage.getItem('token');
+        const token = getCookie('token');
         if (!token) return null;
         
         const result = await fetch (`http://localhost:4100/api/auth/verify_token`, {
@@ -191,6 +193,12 @@ async function fillUserform(){
     username.disabled = true;
     email.disabled = true;
     phone.disabled = true;
+
+    // remove passowrd input
+    const paswordForm = document.querySelectorAll('.dataNeeded')
+    paswordForm.forEach((form) => {
+        form.remove();
+    })
 }
 async function emptyUserForm(){
     username.value = "";
