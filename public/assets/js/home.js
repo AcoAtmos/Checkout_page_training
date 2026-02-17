@@ -1,4 +1,8 @@
-let productsMap = {};
+// ====================== main.js ================
+import { handleOrder } from '../../assets/js/main.js';
+// ==================== home.js ====================
+let products_map = {};
+let current_product = null;
 
 document.addEventListener('DOMContentLoaded', async function() {
     const data = await hit_api_get_product_home();
@@ -40,10 +44,10 @@ async function set_dom_product_home(data){
     let top_selling_html = '';
 
     // Clear and populate map
-    productsMap = {};
+    products_map = {};
 
     new_arrival.forEach(item => {
-        productsMap[item.id] = item;
+        products_map[item.id] = item;
         new_arrival_html += `
         <div class="product-card" data-product="${item.id}">
                 <div class="product-image">
@@ -69,7 +73,7 @@ async function set_dom_product_home(data){
     });
 
     top_selling.forEach(item => { 
-        productsMap[item.id] = item;
+        products_map[item.id] = item;
         top_selling_html += `
             <div class="product-card" data-product="${item.id}">
                 <div class="product-image">
@@ -131,7 +135,6 @@ async function set_dom_profile(){
 }
 
 //===================== product card modal =====================
-//===================== product card modal =====================
 function attachProductListeners() {
     const modal = document.getElementById('productModal');
     const closeBtn = document.getElementById('modalClose');
@@ -150,17 +153,18 @@ function attachProductListeners() {
             document.body.style.overflow = 'auto';
         }
     }
-
+    // product card clicked ()
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', () => {
              const id = card.dataset.product;
-             const product = productsMap[id];
+             const product = products_map[id];
              if(product) openModal(product);
         });
     });
 }
 
 function openModal(item) {
+    current_product = item;
     const modal = document.getElementById("productModal");
     
     // Update Image (handle string URL)
@@ -215,3 +219,9 @@ function openModal(item) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
+//===================== order now button =====================
+const order_now_btn = document.getElementById('order_now_btn');
+order_now_btn.addEventListener('click', () => {
+    window.location.href = `http://localhost:3100/page/checkout/${current_product.slug}`;
+});
