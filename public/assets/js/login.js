@@ -1,4 +1,8 @@
-
+import {
+  isCookieSet,
+  setCookie,
+  getCookie
+} from "./main/main.js";
 
 document.getElementById('loginBtn').addEventListener('click', function(e) {
   e.preventDefault();
@@ -39,10 +43,15 @@ async function hit_api_login(email, password){
         password: password,
       }),
     });
+
+    // parse data from BE
     const data = await res.json();
-    localStorage.setItem('token', data.data.token);
+    // set data 
+    // localStorage.setItem('token', data.data.token);
+    setCookie('token', data.data.token, 1);
     localStorage.setItem('user', JSON.stringify(data.data.user));
-    console.log(data);
+  
+    const token = data.token;
     if(data.status === "success"){
       window.location.href = "/page/home";
     }

@@ -50,6 +50,7 @@ exports.verifyToken = async (req, res) => {
         message: "Token verified successfully"
     });
 };
+
 // register in checkout
 exports.registerCheckout = async (req, res) => {
     try{
