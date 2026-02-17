@@ -1,4 +1,4 @@
-
+let productsMap = {};
 
 document.addEventListener('DOMContentLoaded', async function() {
     const data = await hit_api_get_product_home();
@@ -39,7 +39,11 @@ async function set_dom_product_home(data){
     let new_arrival_html = '';
     let top_selling_html = '';
 
+    // Clear and populate map
+    productsMap = {};
+
     new_arrival.forEach(item => {
+        productsMap[item.id] = item;
         new_arrival_html += `
         <div class="product-card" data-product="${item.id}">
                 <div class="product-image">
@@ -61,11 +65,13 @@ async function set_dom_product_home(data){
                 </div>
             </div>
         `;
+        
     });
 
     top_selling.forEach(item => { 
+        productsMap[item.id] = item;
         top_selling_html += `
-            <div class="product-card" data-product="5">
+            <div class="product-card" data-product="${item.id}">
                 <div class="product-image">
                     <span class="product-icon"><img src="${item.gallery_images}" alt="Product Image"></span>
                 </div>
@@ -86,11 +92,11 @@ async function set_dom_product_home(data){
         `;
     })
 
-
-
     container_new_arrival.innerHTML = new_arrival_html;
     container_top_selling.innerHTML = top_selling_html;
     
+    // Attach listeners after DOM is updated
+    attachProductListeners();
 }
 
 //===================== navbar profile =====================
@@ -122,4 +128,90 @@ async function set_dom_profile(){
     profile.innerHTML = `
         <img class="profile-img" src="../../assets/img/profile/${user.image_url}" alt="Profile">
     `;
+}
+
+//===================== product card modal =====================
+//===================== product card modal =====================
+function attachProductListeners() {
+    const modal = document.getElementById('productModal');
+    const closeBtn = document.getElementById('modalClose');
+
+    if (closeBtn) {
+        closeBtn.onclick = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+    }
+
+    // Close on click outside
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+             const id = card.dataset.product;
+             const product = productsMap[id];
+             if(product) openModal(product);
+        });
+    });
+}
+
+function openModal(item) {
+    const modal = document.getElementById("productModal");
+    
+    // Update Image (handle string URL)
+    const modalImageContainer = document.querySelector(".modal-image");
+    if (modalImageContainer) {
+        modalImageContainer.innerHTML = `<img src="${item.gallery_images}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">`;
+    }
+
+    // Update Text Fields
+    const setContent = (id, value) => {
+        const el = document.getElementById(id);
+        if(el) el.textContent = value;
+    };
+
+    setContent("modalCategory", item.category || 'Product');
+    setContent("modalTitle", item.title);
+    
+    // Rating
+    const ratingText = document.querySelector(".modal-rating .rating-text");
+    if(ratingText) {
+        const count = item.rating_count !== undefined ? item.rating_count : 0;
+        ratingText.textContent = `${item.rating_avg}/5 (${count} reviews)`;
+    }
+    
+    setContent("modalDescription", item.description);
+    
+    // Price Logic
+    setContent("modalPrice", `${item.currency}.${item.discount_price}`);
+    
+    const originalPriceEl = document.getElementById("modalOriginalPrice");
+    if(originalPriceEl) {
+        if(item.discount > 0) {
+            originalPriceEl.textContent = `${item.currency}.${item.price}`;
+            originalPriceEl.style.display = 'inline';
+        } else {
+             originalPriceEl.style.display = 'none';
+        }
+    }
+
+    // Discount Badge
+    const discountEl = document.querySelector(".modal-price .discount");
+    if(discountEl) {
+        if(item.discount > 0) {
+            discountEl.textContent = `-${item.discount}%`;
+            discountEl.style.display = 'inline-block';
+        } else {
+            discountEl.style.display = 'none';
+        }
+    }
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
