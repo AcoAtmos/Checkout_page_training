@@ -3,10 +3,9 @@ const router = express.Router();
 //get controller
 const {
     home,
-    product,
+    browsAll,
     login,
     register,
-    showcase,
     checkout,
     profile
 } = require("../modules/views_controller");
@@ -18,10 +17,9 @@ const {
 
 
 router.get ("/home" , home);
-router.get ("/product" , product);
+router.get ("/browsAll" , browsAll);
 router.get ("/login" , login);
 router.get ("/register" , register);
-router.get ("/showcase" , showcase);
 router.get ("/checkout/:slug" , checkout);
 router.get ("/profile" , profile);
 module.exports = router;

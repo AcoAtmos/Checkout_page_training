@@ -171,7 +171,7 @@ async function submitForm(product){
         product: product.id,
         username: document.getElementById('username').value,
         email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
+        password: document.getElementById('password').value || null,
         phone: document.getElementById('phone').value,
         payment_method: payment_method,
         bank_name: document.getElementById('bank-name').value,

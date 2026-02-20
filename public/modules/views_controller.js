@@ -14,14 +14,9 @@ exports.home = async (req , res ) =>{
     res.render(path.join(__dirname ,"./home/home_page.ejs"));
 };
 
-// showcase page
-exports.showcase = async (req , res ) =>{
-    res.render(path.join(__dirname ,"./showcase/showcase_page.ejs"));
-};
-
-// product page
-exports.product = async (req , res ) =>{
-    res.render(path.join(__dirname ,"./product/product_page.ejs"));
+// browsAll page
+exports.browsAll = async (req , res ) =>{
+    res.render(path.join(__dirname ,"./browsAll/browsAll_page.ejs"));
 };
 
 // checkout page

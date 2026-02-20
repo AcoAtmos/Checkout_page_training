@@ -1,5 +1,6 @@
 // ====================== main.js ================
-import { handleOrder } from '../../assets/js/main.js';
+// import { handleOrder } from '../../assets/js/main.js';
+import { getCookie, isCookieSet, setCookie } from "./main/main.js";
 // ==================== home.js ====================
 let products_map = {};
 let current_product = null;
@@ -105,7 +106,8 @@ async function set_dom_product_home(data){
 
 //===================== navbar profile =====================
 async function check_login(){
-    const token = localStorage.getItem('token'); // cek token
+    // const token = localStorage.getItem('token'); // cek token
+    const token = getCookie('token');
     if(token){ // if exist
         try{
             const response = await fetch("http://localhost:4100/api/auth/verify_token", {
@@ -219,7 +221,153 @@ function openModal(item) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+//===================== document interaction =====================
+    // Dropdown Menu
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dropdown = toggle.nextElementSibling;
+            
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if (menu !== dropdown) {
+                    menu.classList.remove('active');
+                }
+            });
+            
+            dropdown.classList.toggle('active');
+        });
+    });
 
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('active');
+            });
+        }
+    });
+
+    // Scroll to Top Button
+    const scrollTop = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTop.classList.add('visible');
+        } else {
+            scrollTop.classList.remove('visible');
+        }
+    });
+
+    scrollTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Smooth Scrolling for Navigation Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Newsletter Form
+    const newsletterForm = document.getElementById('newsletterForm');
+    newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = newsletterForm.querySelector('input').value;
+        
+        // Simulate submission
+        alert(`Thank you for subscribing with: ${email}`);
+        newsletterForm.reset();
+    });
+
+    // Add to Cart functionality
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const currentCount = parseInt(document.querySelector('.cart-count').textContent);
+            document.querySelector('.cart-count').textContent = currentCount + 1;
+            
+            // Show success message
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Added to Cart!';
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        });
+    });
+
+    // Animate elements on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Animate product cards and other elements
+    document.querySelectorAll('.product-card, .category-card, .review-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Category card hover effects
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const categoryName = card.querySelector('.category-name').textContent;
+            alert(`Browsing ${categoryName}...`);
+        });
+    });
+
+    // Icon button interactions
+    document.querySelectorAll('.icon-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const title = this.getAttribute('title');
+            if (title === 'Search') {
+                const searchQuery = prompt('Enter your search query:');
+                if (searchQuery) {
+                    alert(`Searching for: ${searchQuery}`);
+                }
+            } else if (title === 'Cart') {
+                alert('Opening cart...');
+            } else if (title === 'Account') {
+                alert('Opening account settings...');
+            }
+        });
+    });
+
+    // Add parallax effect to hero section
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero-image');
+        if (hero) {
+            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+    });
+
+    // Initialize page
+    console.log('DesignHub website loaded successfully! 🎨');
 //===================== order now button =====================
 const order_now_btn = document.getElementById('order_now_btn');
 order_now_btn.addEventListener('click', () => {
