@@ -55,6 +55,8 @@ Mostly indigo/purple colors (#6366f1), rounded corners, some hover effects, mobi
 - Add dark mode toggle
 - Maybe connect to real payment gateway
 - Add some animation library (maybe GSAP or just framer-motion if I switch to React)
+- add functional filter and search 
+- add functional profile system
 
 ## License
 

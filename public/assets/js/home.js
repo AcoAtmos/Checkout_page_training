@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     //navbar profile
     const check = await check_login();
+    
     if(check){
         await set_dom_profile();
+        setDropdown();
     }
 })
 
@@ -104,7 +106,7 @@ async function set_dom_product_home(data){
     attachProductListeners();
 }
 
-//===================== navbar profile =====================
+//===================== navbar/ profile/ user =====================
 async function check_login(){
     // const token = localStorage.getItem('token'); // cek token
     const token = getCookie('token');
@@ -127,14 +129,83 @@ async function check_login(){
         return false;
     }
 }
+function logout(){
+    setCookie('token', '', 1);
+    localStorage.removeItem('user');
+    window.location.href = '/page/home';
+}
+
 
 async function set_dom_profile(){
     const user = JSON.parse(localStorage.getItem('user'));
-    const profile = document.getElementById('profile');
+    const profile = document.getElementById('profile-img');
+    const profile_dropdown = document.getElementById('profile-dropdown');
+    // set profile image
     profile.innerHTML = `
         <img class="profile-img" src="../../assets/img/profile/${user.image_url}" alt="Profile">
     `;
+    // set profile dropdown
+    profile_dropdown.setAttribute('data-menu', 'profile');
+    profile_dropdown.href = '#';
+    profile_dropdown.classList.add('dropdown-toggle');
+
 }
+// navbar dropdown
+const menus = {
+    profile :  [
+        {name : "profile", href : "/page/profile"},
+        {name : "orders", href : "/page/orders"},
+        {name : "logout", href : "#"}
+    ],
+    shop :  [
+        {name : "New Arrivals", href : "#new-arrivals"},
+        {name : "Top Selling", href : "#top-selling"},
+        {name : "All Categories", href : "#categories"},
+        {name : "On Sale", href : "#sale"}
+    ]
+}
+
+function setDropdown(){
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const menu = document.querySelector(".dropdown-menu");
+            const dropdown = toggle.appendChild(menu);
+            const menu_name = toggle.dataset.menu;
+            const menu_items = menus[menu_name];
+            menu.innerHTML = '';
+            menu_items.forEach(item => {
+                const a = document.createElement('a');
+                a.href = item.href;
+                a.textContent = item.name;
+                menu.appendChild(a);
+            });
+            menu.style.display = 'block';
+            // set logout
+            document.querySelector('#profile-dropdown > div > a:nth-child(3)').addEventListener('click', ()=>{
+                logout();
+            });
+        // Close other dropdowns
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            if (menu !== dropdown) {
+                menu.classList.remove('active');
+            }
+        });
+        
+        dropdown.classList.toggle('active');
+    });
+});
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('active');
+        });
+    }
+});
+
 
 //===================== product card modal =====================
 function attachProductListeners() {
@@ -222,32 +293,6 @@ function openModal(item) {
     document.body.style.overflow = 'hidden';
 }
 //===================== document interaction =====================
-    // Dropdown Menu
-    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-        toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            const dropdown = toggle.nextElementSibling;
-            
-            // Close other dropdowns
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== dropdown) {
-                    menu.classList.remove('active');
-                }
-            });
-            
-            dropdown.classList.toggle('active');
-        });
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                menu.classList.remove('active');
-            });
-        }
-    });
-
     // Scroll to Top Button
     const scrollTop = document.getElementById('scrollTop');
 
@@ -267,18 +312,18 @@ function openModal(item) {
     });
 
     // Smooth Scrolling for Navigation Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
+    // document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    //     anchor.addEventListener('click', function (e) {
+    //         e.preventDefault();
+    //         const target = document.querySelector(this.getAttribute('href'));
+    //         if (target) {
+    //             target.scrollIntoView({
+    //                 behavior: 'smooth',
+    //                 block: 'start'
+    //             });
+    //         }
+    //     });
+    // });
 
     // Newsletter Form
     const newsletterForm = document.getElementById('newsletterForm');
@@ -292,7 +337,7 @@ function openModal(item) {
     });
 
     // Add to Cart functionality
-    document.querySelectorAll('.btn-primary').forEach(btn => {
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
         btn.addEventListener('click', () => {
             const currentCount = parseInt(document.querySelector('.cart-count').textContent);
             document.querySelector('.cart-count').textContent = currentCount + 1;
@@ -301,11 +346,11 @@ function openModal(item) {
             const originalText = btn.textContent;
             btn.textContent = '✓ Added to Cart!';
             btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            btn.style.color = 'white';
+            btn.style.cursor = 'not-allowed';
+            btn.style.width = '70%';
             
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-            }, 2000);
+            
         });
     });
 
@@ -332,32 +377,34 @@ function openModal(item) {
         observer.observe(el);
     });
 
-    // Category card hover effects
-    document.querySelectorAll('.category-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const categoryName = card.querySelector('.category-name').textContent;
-            alert(`Browsing ${categoryName}...`);
-        });
-    });
+    // // Category card hover effects
+    // document.querySelectorAll('.category-card').forEach(card => {
+    //     card.addEventListener('click', () => {
+    //         const categoryName = card.querySelector('.category-name').textContent;
+    //         alert(`Browsing ${categoryName}...`);
+    //     });
+    // });
 
     // Icon button interactions
-    document.querySelectorAll('.icon-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const title = this.getAttribute('title');
-            if (title === 'Search') {
-                const searchQuery = prompt('Enter your search query:');
-                if (searchQuery) {
-                    alert(`Searching for: ${searchQuery}`);
-                }
-            } else if (title === 'Cart') {
-                alert('Opening cart...');
-            } else if (title === 'Account') {
-                alert('Opening account settings...');
-            }
-        });
-    });
+   
+    // document.querySelectorAll('.icon-btn').forEach(btn => {
+    //     btn.addEventListener('click', function() {
+    //         const title = this.getAttribute('title');
+    //         if (title === 'Search') {
+    //             const searchQuery = prompt('Enter your search query:');
+    //             if (searchQuery) {
+    //                 alert(`Searching for: ${searchQuery}`);
+    //             }
+    //         } else if (title === 'Cart') {
+    //             alert('Opening cart...');
+    //         } else if (title === 'Account') {
+    //             alert('Opening account settings...');
+    //         }
+    //     });
+    // });
 
     // Add parallax effect to hero section
+    
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.hero-image');
